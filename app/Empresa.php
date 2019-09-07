@@ -12,6 +12,10 @@ class Empresa extends Model
         'cnpj',
         'missao',
         'visao',
-        'valores'
+        'valores',
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

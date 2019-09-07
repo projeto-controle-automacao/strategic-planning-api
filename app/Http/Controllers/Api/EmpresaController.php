@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
+use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
 use App\Empresa;
-use Symfony\Component\Mime\Message;
+use App\Http\Requests\EmpresaRequest;
+
 
 class EmpresaController extends Controller
 {
@@ -22,7 +23,7 @@ class EmpresaController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(EmpresaRequest $request)
     {
         $data = $request->all();
         try {
@@ -34,11 +35,27 @@ class EmpresaController extends Controller
                 ]
             ], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(), 401);
         }
     }
 
-    public function update($id, Request $request)
+    public function show($id)
+    {
+        try {
+            $empresa = $this->empresa->findOrFail($id);
+            return response()->json([
+                'data' => [
+                    "empresa" => $empresa
+                ]
+            ], 200);
+        } catch (\Exception $e) {
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(), 401);
+        }
+    }
+
+    public function update($id, EmpresaRequest $request)
     {
         $data = $request->all();
         try {
@@ -50,13 +67,12 @@ class EmpresaController extends Controller
                 ]
             ], 200);
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 401);
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(), 401);
         }
     }
 
-    public function destroy($id, Request $request)
+    public function destroy($id)
     {
         try {
             $empresa = $this->empresa->findOrFail($id);
@@ -65,9 +81,8 @@ class EmpresaController extends Controller
                 "message" => "empresa deletada com sucesso"
             ], 204);
         } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage()
-            ], 401);
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(), 401);
         }
     }
 }
