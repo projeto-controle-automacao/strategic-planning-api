@@ -19,8 +19,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->namespace('Api')->group(function () {
 
-    Route::prefix('empresas')->group(function () {
+    Route::name('empresas')->group(function () {
 
-        Route::resource('/', 'EmpresaController');
+        Route::resource('empresas', 'EmpresaController');
     });
 });
