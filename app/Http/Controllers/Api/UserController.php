@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Empresa;
+use App\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
@@ -22,8 +22,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $user = $this->user::all();
-        return response()->json($user, 200);
+        $users = $this->user::all();
+        return response()->json($users, 200);
     }
 
     /**
@@ -53,7 +53,8 @@ class UserController extends Controller
                 ]
             ], 200);
         } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
+            $message = new ApiMessages($e->getMessage());
+            return response()->json($message->getMessage(), 401);
         }
     }
 
@@ -97,7 +98,7 @@ class UserController extends Controller
             unset($data['password']);
         }
         try {
-            $user = $this->empresa->findOrFail($id);
+            $user = $this->user->findOrFail($id);
             $user->update($data);
             return response()->json([
                 'data' => [
@@ -120,7 +121,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         try {
-            $user = $this->empresa->findOrFail($id);
+            $user = $this->user->findOrFail($id);
             $user->delete();
             return response()->json([
                 "message" => "Usuario deletado com sucesso"
@@ -130,9 +131,5 @@ class UserController extends Controller
                 'error' => $e->getMessage()
             ], 401);
         }
-    }
-    public function empresa()
-    {
-        return $this->hasMany(Empresa::class);
     }
 }

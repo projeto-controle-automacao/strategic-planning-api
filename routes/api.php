@@ -19,9 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('v1')->namespace('Api')->group(function () {
 
-    Route::name('empresas')->group(function () {
+    Route::name('companies')->group(function () {
 
-        Route::resource('empresas', 'EmpresaController');
+        Route::resource('companies/{id}/company-profile', 'CompanyProfileController');
+
+        Route::resource('companies', 'CompanyController');
     });
 
     Route::name('users')->group(function () {

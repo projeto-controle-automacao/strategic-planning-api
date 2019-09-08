@@ -4,30 +4,30 @@ namespace App\Http\Controllers\Api;
 
 use App\Api\ApiMessages;
 use App\Http\Controllers\Controller;
-use App\Empresa;
-use App\Http\Requests\EmpresaRequest;
+use App\Company;
+use App\Http\Requests\CompanyRequest;
 
 
-class EmpresaController extends Controller
+class CompanyController extends Controller
 {
-    private $empresa;
-    public function __construct(Empresa $empresa)
+    private $company;
+    public function __construct(Company $company)
     {
-        $this->empresa = $empresa;
+        $this->company = $company;
     }
 
     public function index()
     {
-        $empresas = $this->empresa::all();
-        return response()->json($empresas, 200);
+        $companies = $this->company::all();
+        return response()->json($companies, 200);
     }
 
 
-    public function store(EmpresaRequest $request)
+    public function store(CompanyRequest $request)
     {
         $data = $request->all();
         try {
-            $empresa = $this->empresa->create($data);
+            $company = $this->company->create($data);
 
             return response()->json([
                 "data" => [
@@ -43,10 +43,10 @@ class EmpresaController extends Controller
     public function show($id)
     {
         try {
-            $empresa = $this->empresa->findOrFail($id);
+            $company = $this->company->findOrFail($id);
             return response()->json([
                 'data' => [
-                    "empresa" => $empresa
+                    "empresa" => $company
                 ]
             ], 200);
         } catch (\Exception $e) {
@@ -55,12 +55,12 @@ class EmpresaController extends Controller
         }
     }
 
-    public function update($id, EmpresaRequest $request)
+    public function update($id, CompanyRequest $request)
     {
         $data = $request->all();
         try {
-            $empresa = $this->empresa->findOrFail($id);
-            $empresa->update($data);
+            $company = $this->company->findOrFail($id);
+            $company->update($data);
             return response()->json([
                 'data' => [
                     "message" => 'Empresa atualizada com sucesso!'
@@ -75,8 +75,8 @@ class EmpresaController extends Controller
     public function destroy($id)
     {
         try {
-            $empresa = $this->empresa->findOrFail($id);
-            $empresa->delete();
+            $company = $this->company->findOrFail($id);
+            $company->delete();
             return response()->json([
                 "message" => "empresa deletada com sucesso"
             ], 204);
