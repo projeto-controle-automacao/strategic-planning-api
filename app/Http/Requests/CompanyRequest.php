@@ -28,7 +28,6 @@ class CompanyRequest extends FormRequest
             'fancy_name' => 'required',
             'company_name',
             'CNPJ',
-            'user_id'
         ];
     }
 }

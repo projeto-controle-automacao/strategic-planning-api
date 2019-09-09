@@ -10,7 +10,6 @@ class Company extends Model
         'fancy_name',
         'company_name',
         'CNPJ',
-        'user_id'
     ];
 
     public function user()

@@ -25,7 +25,9 @@ class CompanyProfileController extends Controller
      */
     public function index($id)
     {
-        $company = $this->company::findOrFail($id);
+        $user = auth('api')->user();
+        $company = $user->companies()->findOrFail($id);
+
         return $company->profiles;
     }
 
@@ -40,7 +42,8 @@ class CompanyProfileController extends Controller
         $data = $request->all();
 
         try {
-            $company = $this->company->findOrFail($id);
+            $user = auth('api')->user();
+            $company = $user->companies()->findOrFail($id);
             $company->profiles()->create($data);
 
             return response()->json([
@@ -63,7 +66,8 @@ class CompanyProfileController extends Controller
     public function show($id, $profile_id)
     {
         try {
-            $company = $this->company->findOrFail($id);
+            $user = auth('api')->user();
+            $company = $user->companies()->findOrFail($id);
             $companyProfile = $company->profiles()->findOrFail($profile_id);
             return response()->json([
                 'data' => [
@@ -88,7 +92,8 @@ class CompanyProfileController extends Controller
         $data = $request->all();
 
         try {
-            $company = $this->company->findOrFail($id);
+            $user = auth('api')->user();
+            $company = $user->companies()->findOrFail($id);
             $companyProfile = $company->profiles()->findOrFail($profile_id);
             $companyProfile->update($data);
             return response()->json([
@@ -111,7 +116,8 @@ class CompanyProfileController extends Controller
     public function destroy($id, $profile_id)
     {
         try {
-            $company = $this->company->findOrFail($id);
+            $user = auth('api')->user();
+            $company = $user->companies()->findOrFail($id);
             $companyProfile = $company->profiles()->findOrFail($profile_id);
             $companyProfile->delete();
             return response()->json([

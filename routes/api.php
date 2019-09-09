@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\LoginController;
 use Illuminate\Http\Request;
 
 /*
@@ -18,14 +19,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->namespace('Api')->group(function () {
+    Route::post('login', 'Auth\\LoginController@login');
+    Route::post('logout', 'Auth\\LoginController@logout');
+    Route::post('refresh', 'Auth\\LoginController@refresh');
 
-    Route::name('companies')->group(function () {
+    Route::group(['middleware' => 'jwt.auth'], function () {
+        Route::name('companies')->group(function () {
 
-        Route::resource('companies/{id}/company-profile', 'CompanyProfileController');
+            Route::resource('companies/{id}/company-profile', 'CompanyProfileController');
 
-        Route::resource('companies', 'CompanyController');
+            Route::resource('companies', 'CompanyController');
+        });
     });
-
     Route::name('users')->group(function () {
 
         Route::resource('users', 'UserController');

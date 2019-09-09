@@ -18,7 +18,9 @@ class CompanyController extends Controller
 
     public function index()
     {
-        $companies = $this->company::all();
+        $user = auth('api')->user();
+        $companies = $user->companies;
+        //$companies = $this->company::all();
         return response()->json($companies, 200);
     }
 
@@ -27,7 +29,8 @@ class CompanyController extends Controller
     {
         $data = $request->all();
         try {
-            $company = $this->company->create($data);
+            $user = auth('api')->user();
+            $company = $user->companies()->create($data);
 
             return response()->json([
                 "data" => [
@@ -43,7 +46,8 @@ class CompanyController extends Controller
     public function show($id)
     {
         try {
-            $company = $this->company->findOrFail($id);
+            $user = auth('api')->user();
+            $company = $user->companies()->findOrFail($id);
             return response()->json([
                 'data' => [
                     "empresa" => $company
@@ -59,7 +63,8 @@ class CompanyController extends Controller
     {
         $data = $request->all();
         try {
-            $company = $this->company->findOrFail($id);
+            $user = auth('api')->user();
+            $company = $user->companies()->findOrFail($id);
             $company->update($data);
             return response()->json([
                 'data' => [
@@ -75,7 +80,8 @@ class CompanyController extends Controller
     public function destroy($id)
     {
         try {
-            $company = $this->company->findOrFail($id);
+            $user = auth('api')->user();
+            $company = $user->companies()->findOrFail($id);
             $company->delete();
             return response()->json([
                 "message" => "empresa deletada com sucesso"
