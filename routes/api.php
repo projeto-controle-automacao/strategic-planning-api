@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->namespace('Api')->group(function () {
+
     Route::post('login', 'Auth\\LoginController@login');
     Route::post('logout', 'Auth\\LoginController@logout');
     Route::post('refresh', 'Auth\\LoginController@refresh');
