@@ -33,9 +33,7 @@ class CompanyController extends Controller
             $company = $user->companies()->create($data);
 
             return response()->json([
-                "data" => [
-                    "message" => "Empresa cadastrada com sucesso"
-                ]
+                 $company
             ], 200);
         } catch (\Exception $e) {
             $message = new ApiMessages($e->getMessage());
