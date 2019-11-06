@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,8 @@ Route::prefix('v1')->namespace('Api')->group(function () {
             Route::resource('companies', 'CompanyController');
         });
     });
+    Route::get('getbyPillarField/{pillar}/{field}', 'SubFrases_has_Fields@getByPillarAndField');
+    Route::get('getByPillar/{pillar}', 'SubFrases_has_Fields@getByPillar');
     Route::name('users')->group(function () {
 
         Route::resource('users', 'UserController');
