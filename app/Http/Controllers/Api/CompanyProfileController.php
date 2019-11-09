@@ -69,10 +69,8 @@ class CompanyProfileController extends Controller
             $user = auth('api')->user();
             $company = $user->companies()->findOrFail($id);
             $companyProfile = $company->profiles()->findOrFail($profile_id);
-            return response()->json([
-                'data' => [
+            return response()->json([    
                     "perfil" => $companyProfile
-                ]
             ], 200);
         } catch (\Exception $e) {
             $message = new ApiMessages($e->getMessage());
