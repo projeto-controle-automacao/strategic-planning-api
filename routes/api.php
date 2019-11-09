@@ -36,7 +36,6 @@ Route::prefix('v1')->namespace('Api')->group(function () {
     Route::get('getbyPillarField/{pillar}/{field}', 'SubFrases_has_Fields@getByPillarAndField');
     Route::get('getByPillar/{pillar}', 'SubFrases_has_Fields@getByPillar');
     Route::name('users')->group(function () {
-
         Route::resource('users', 'UserController');
     });
 });
